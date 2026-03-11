@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class Nomor3 {
+
     static class Student {
         String name;
         int chance;
@@ -12,33 +13,49 @@ public class Nomor3 {
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
-        int n = sc.nextInt();
-        sc.nextLine();
+        try (Scanner sc = new Scanner(System.in)) {
 
-        String[] names = sc.nextLine().split(" ");
-        String[] chancesInput = sc.nextLine().split(" ");
+            int n = sc.nextInt();
+            sc.nextLine();
 
-        Queue<Student> queue = new LinkedList<>();
+            // Constraint: 5 < line < 20
+            if (n < 5 || n > 20) {
+                System.out.println("Invalid queue length (must be between 5 and 20)");
+                return;
+            }
 
-        for (int i = 0; i < n; i++) {
-            int chance = Integer.parseInt(chancesInput[i]);
-            queue.add(new Student(names[i], chance));
-        }
+            String[] names = sc.nextLine().split(" ");
+            String[] chanceInput = sc.nextLine().split(" ");
 
-        while (!queue.isEmpty()) {
-            Student current = queue.poll();
-            current.chance--;
+            Queue<Student> queue = new LinkedList<>();
 
-            if (current.chance > 0) {
-                System.out.println(current.name + "|Try Again|" + current.chance);
-                queue.add(current);
-            } else {
-                System.out.println(current.name + "|Get Out|0");
+            for (int i = 0; i < n; i++) {
+
+                String name = names[i];
+                int chance = Integer.parseInt(chanceInput[i]);
+
+                // Constraint: chance 1–10
+                if (chance < 1 || chance > 10) {
+                    System.out.println("Invalid chance value (must be between 1 and 10)");
+                    return;
+                }
+
+                queue.add(new Student(name, chance));
+            }
+
+            while (!queue.isEmpty()) {
+
+                Student current = queue.poll();
+                current.chance--;
+
+                if (current.chance > 0) {
+                    System.out.println(current.name + "|Try Again|" + current.chance);
+                    queue.add(current);
+                } else {
+                    System.out.println(current.name + "|Get Out|0");
+                }
             }
         }
-
-        sc.close();
     }
 }
