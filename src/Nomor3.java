@@ -1,3 +1,4 @@
+package codingan;
 import java.util.*;
 
 public class Nomor3 {
